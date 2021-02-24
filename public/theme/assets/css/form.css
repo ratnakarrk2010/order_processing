@@ -1,0 +1,117 @@
+/* .form-material.required .control-label:after {
+    content: "*";
+    color: red;
+} */
+
+.text-red {
+    color: red;
+}
+
+.form-material {
+    position: relative;
+    margin: 30px 0 10px !important;
+}
+
+.table-responsive {
+    border: 0px solid #eee !important;
+}
+
+#DataTables_Table_0_wrapper {
+    overflow: auto;
+}
+
+.margin_bottom {
+    margin-bottom: -20%;
+}
+
+.btn_export {
+    /*margin-left: -5%;*/
+    float:right;
+}
+
+.btn_flex {
+    display: flex !important;
+}
+
+.btn_payment {
+    white-space: normal !important;
+    /* word-wrap: break-word; */
+    max-width: 50%;
+    margin-right: 2%;
+    margin-top: 2%;
+}
+
+.btn_installation {
+    white-space: normal !important;
+    /* word-wrap: break-word; */
+    max-width: 100%;
+}
+
+.table > tbody > tr > td{
+    padding: 0.5em !important;
+}
+
+@media (min-width: 320px) and (max-width: 767px) {
+    .btn_export {
+        padding: 5px;
+    }
+    .margin_bottom {
+        position: absolute;
+        top: 27.5%;
+        left: 8%;
+    }
+    .btn_payment {
+        margin-top: 2.5%;
+    }
+}
+
+@media (min-width: 371px) and (max-width: 400px) {
+    .margin_bottom {
+        position: absolute;
+        top: 26.5%;
+        left: 8%;
+    }
+}
+
+@media (width: 375px) and (height: 812px) {
+    .margin_bottom {
+        position: absolute;
+        top: 21.5%;
+        left: 8%;
+    }
+}
+
+@media (min-width: 411px) and (max-width: 414px) {
+    .margin_bottom {
+        position: absolute;
+        top: 24%;
+        left: 8%;
+    }
+}
+
+@media (min-width: 767px) and (max-width: 1023px) {
+    .btn_export {
+        margin-left: -49%;
+    }
+    .btn_payment {
+        margin-top: 2.5%;
+    }
+}
+
+@media (min-width: 1024px) and (max-width: 1200px) {
+    .btn_export {
+        margin-left: -49%;
+    }
+    .btn_payment {
+        margin-top: 2.5%;
+    }
+}
+
+@media (min-width: 1800px) and (max-width: 2100px) {
+    .btn_export {
+        margin-left: 35%;
+    }
+    .btn_payment {
+        margin-top: 1%;
+    }
+}
