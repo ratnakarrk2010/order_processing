@@ -35,24 +35,38 @@ class InstallationModel extends Model{
         $installationObj = OrderModel::find($installationData['orderIdToSubmit']);
 
         $order = OrderModel::find($installationData['orderIdToSubmit']);
+        $installationModel = null;
+        $installationModel = InstallationModel::where('order_id', $installationData['orderIdToSubmit']);
+        if($installationModel == null) {
+            $installationModel = new InstallationModel();
 
-        $installationModel = new InstallationModel();
-
-        $installationModel->customer_id = $order->customer_id;
-        $installationModel->order_id = $order->id;
-        $installationModel->installation_assigned_to = $installationData['installation_assigned_to'];
-        $installationModel->installation_assigned_to_id = $installationData['installation_assigned_to_id'];
-        
-        $installationModel->installation_start_date = $installationData['installation_start_date'];
-        $installationModel->installation_completion_date = $installationData['installation_completion_date'];
-        $installationModel->doc_completed = $installationData['doc_completed'];
-        $installationModel->installation_serivice_completed = $installationData['installation_serivice_completed'];
-        //$installationModel->inv_no = $installationData['inv_no'];
-        //$installationModel->installation_alert = $installationData['installation_alert'];
-        //$installationModel->amc_alert = $installationData['amc_alert'];
-        $installationModel->created_by = Session::get("loggedInUserId");
-        $installationModel->save();
-
+            $installationModel->customer_id = $order->customer_id;
+            $installationModel->order_id = $order->id;
+            $installationModel->installation_assigned_to = $installationData['installation_assigned_to'];
+            $installationModel->installation_assigned_to_id = $installationData['installation_assigned_to_id'];
+            
+            $installationModel->installation_start_date = $installationData['installation_start_date'];
+            $installationModel->installation_completion_date = $installationData['installation_completion_date'];
+            $installationModel->doc_completed = $installationData['doc_completed'];
+            $installationModel->installation_serivice_completed = $installationData['installation_serivice_completed'];
+            
+    
+            $installationModel->created_by = Session::get("loggedInUserId");
+            $installationModel->save();
+        } else{
+            $installationModel->update(array(
+                'customer_id' => $order->customer_id,
+                'installation_assigned_to' => $installationData['installation_assigned_to'],
+                'installation_assigned_to_id' => $installationData['installation_assigned_to_id'],
+                'installation_start_date' => $installationData['installation_start_date'],
+                'installation_completion_date' => $installationData['installation_completion_date'],
+                'doc_completed' => $installationData['doc_completed'],
+                'installation_serivice_completed' => $installationData['installation_serivice_completed'],
+                'created_by' => Session::get("loggedInUserId")
+                
+            ));
+        }
+      
         return $installationModel;
         /*
         Log::info("installationObj->".$installationObj);
@@ -79,5 +93,13 @@ class InstallationModel extends Model{
             return [];
         }
     } 
+
+    public function getInstalltionAssignedTo($orderId){
+        $installationModel = new InstallationModel();
+        $installationAssignedToDetails = InstallationModel::where('order_id', $orderId)->get();
+        return $installationAssignedToDetails;
+    }
+
+   
    
 }

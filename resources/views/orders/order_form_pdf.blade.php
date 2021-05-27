@@ -43,7 +43,7 @@
                         <th class="greyClass" >OPF No.</th>
                         <td>{{ $orderDetails->opf_no}}</td>
                         <th class="greyClass">OPF Date</th>
-                        <td>{{ $orderDetails->opf_date}}</td>
+                        <td>{{date('d/m/Y', strtotime($orderDetails->opf_date))}}</td>
                         <th class="greyClass">PO NO</th>
                         <td>{{ $orderDetails->po_no}}</td>
                     </tr>
@@ -51,16 +51,20 @@
                         <th class="greyClass">Client Name</th>
                         <td colspan="3">{{ $orderDetails->client_name}}</td>
                         <th class="greyClass">PO Date</th>
-                        <td>{{ $orderDetails->po_date}}</td>
+                        <td>{{date('d/m/Y', strtotime($orderDetails->po_date))}}</td>
                     </tr>
                     <tr>
                         <th class="greyClass">Address</th>
                         <td colspan="5">{{ $orderDetails->address}}</td>
                     </tr>
                     <tr>
-                        <th class="greyClass">Installation Address</th>
-                        <td colspan="5">{{ $orderDetails->installation_address}}</td>
+                        <th class="greyClass" rowspan="{{sizeof($installationAddresses) + 1}}">Installation Address</th>
                     </tr>
+                    @foreach($installationAddresses as $installationAddress)
+                    <tr>
+                        <td colspan="5">{{ $installationAddress->installation_address}}</td>
+                    </tr>
+                    @endforeach
                     <tr>
                         <th class="greyClass">Contact Persons</th>
                         <td colspan="3">{{ $orderDetails->contact_person1}}</td>
@@ -82,48 +86,73 @@
                         <td>{{ $orderDetails->warranty_period}}</td>
                     </tr>   
                     <tr class="greyClass">
-                        <th>Sr.No</th>
-                        <th colspan="2">Payment Terms</th>
-                        <th>Payment Received</th>
-                        <th>Balance Payment</th>
-                        <th>Payment Received Date</th>
+                        <th>Invoice&nbsp;No</th>
+                        <th>Invoice&nbsp;Date</th>
+                        <th>Payment&nbsp;Terms</th>
+                        <th>Payment&nbsp;Received</th>
+                        <th>Balance&nbsp;Payment</th>
+                        <th>Payment&nbsp;Received Date</th>
                         
                         <tbody>
                         @if(isset($paymentArr) && $paymentArr != null)
                             @foreach($paymentArr as $payment)
                                 <tr>
-                                    <td style="text-align:center;">{{ $payment->id}}</td>
-                                    <td style="text-align:center;" colspan="2">{{ $payment->payment_terms}}</td>
-                                    <td style="text-align:center;">{{ $payment->payment_received}}</td>
-                                    <td style="text-align:center;">{{ $payment->balance_payment}}</td>
-                                    <td style="text-align:center;">{{ $payment->payment_received_date}}</td>
+                                 
+                                    <td style="text-align:center;">{{ $payment->invoice_no }}</td>
+                                    <td style="text-align:center;">{{ date('d/m/Y', strtotime($payment->invoice_date)) }}</td>
+                                    <td style="text-align:center;">{{ $payment->payment_terms }}</td>
+                                    <td style="text-align:center;">{{ $payment->payment_received }}</td>
+                                    <td style="text-align:center;">{{ $payment->balance_payment }}</td>
+                                    <td style="text-align:center;">{{ date('d/m/Y', strtotime($payment->payment_received_date)) }}</td>
                                 </tr>
                             @endforeach
                         @endif
                         </tbody>
-                    </tr> 
-                    <tr>
+                    </tr>
+                    <tr class="greyClass">
+                        <th>Invoice&nbsp;No</th>
+                        <th>Invoice&nbsp;Date</th>
+                        <th>DC No</th>
+                        <th>DC Date</th>
+                        <th colspan="2">Product Serial Number</th>
+                        
+                        <tbody>
+                        @if(isset($paymentArr) && $paymentArr != null)
+                            @foreach($paymentArr as $payment)
+                                <tr>
+                                 
+                                    <td style="text-align:center;">{{ $payment->invoice_no }}</td>
+                                    <td style="text-align:center;">{{ date('d/m/Y', strtotime($payment->invoice_date)) }}</td>
+                                    <td style="text-align:center;">{{ $payment->dc_no}}</td>
+                                    <td style="text-align:center;">{{ date('d/m/Y', strtotime($payment->dc_date)) }}</td>
+                                    <td style="text-align:center;" colspan="2">{{ $payment->product_serial_no }}</td>
+                                </tr>
+                            @endforeach
+                        @endif
+                        </tbody>
+                    </tr>
+                   <!-- <tr>
                         <th class="greyClass">Invoice Number</th>
                         <td colspan="3">{{ $orderDetails->invoice_no}}</td>
                         <th class="greyClass">Invoice Date</th>
                         <td>{{ $orderDetails->invoice_date}}</td>
-                    </tr>
+                    </tr>-->
                     <tr>
                         <th class="greyClass">Name & Signature of Sale Initiator</th>
                         <td colspan="3">{{ $orderDetails->sales_initiator_by}}</td>
-                        <th class="greyClass">Approved & Accepted By</th>
+                        <th class="greyClass">Approved / Rejected By</th>
                         <td>{{ $orderDetails->approved_by}}</td>
                     </tr>   
                     <tr>
                         <th class="greyClass">Total PO Value</th>
-                        <td colspan="5">{{ $orderDetails->total_po_value}}</td>
+                        <td colspan="5">{{ $orderDetails->total_order_amount}}</td>
                     </tr>
                     <tr>
                         <th colspan="6"class="greyClass"><center>This section to be enetered after receipt of Purchase Order</center></th>
                     </tr>
                     <tr>
                         <th class="greyClass"> Material  Procurement Date</th>
-                        <td colspan="5">{{ $orderDetails->material_procurement_date}}</td>
+                        <td colspan="5">{{date('d/m/Y', strtotime($orderDetails->material_procurement_date))}}</td>
                     </tr>
                     <tr>
                         <th class="greyClass">QC / In House Testing  results</th>
@@ -131,22 +160,22 @@
                     </tr>
                     <tr>
                         <th class="greyClass">Dispatch Date</th>
-                        <td colspan="1">{{ $orderDetails->dispatch_date}}</td>
+                        <td colspan="1">{{date('d/m/Y', strtotime($orderDetails->dispatch_date))}}</td>
                         <th colspan="4"class=""><center>By Courier / Hand Delivery</center></th>
                     </tr>
                     <tr class="greyClass">
-                        <th>Material</th>
+                        <th colspan="3">Material</th>
+                        <th>Make</th>
+                        <th>Model</th>
                         <th>Quantity</th>
-                        <th colspan="2">DC & Dt</th>
-                        <th colspan="2">Product Serial No</th>
                         <tbody>
                         @if(isset($orderDetailsArr))
                             @foreach($orderDetailsArr as $orderDt)
                                 <tr>
-                                    <td style="text-align:center;">{{ $orderDt->materials}}</td>
-                                    <td style="text-align:center;">{{ $orderDt->quantity}}</td>
-                                    <td style="text-align:center;" colspan="2">{{ $orderDt->dc_no}} , {{ $orderDt->dc_date}}</td>
-                                    <td style="text-align:center;" colspan="2">{{ $orderDt->product_serial_no}}</td>
+                                    <td style="text-align:center;" colspan="3">{{ $orderDt->materials }}</td>
+                                    <td style="text-align:center;">{{ $orderDt->quantity }}</td>
+                                    <td style="text-align:center;">{{ $orderDt->make }}</td>
+                                    <td style="text-align:center;">{{ $orderDt->model }}</td>
                                 </tr>
                             @endforeach
                         @endif
@@ -155,11 +184,11 @@
                     @if(isset($installationDetailsArr) && $installationDetailsArr != null)
                     <tr>
                         <th class="greyClass">Installation Start Date</th>
-                        <td colspan="">{{$installationDetailsArr->installation_start_date}}</td>
+                        <td colspan="">{{date('d/m/Y', strtotime($installationDetailsArr->installation_start_date))}}</td>
                         <th class="greyClass">Installation Completion Date</th>
-                        <td>{{$installationDetailsArr->installation_completion_date}}</td>
-                        <th class="greyClass">Completion Certificate collected on</th>
-                        <td>{{$installationDetailsArr->installation_completion_date}}</td>
+                        <td>{{date('d/m/Y', strtotime($installationDetailsArr->installation_completion_date))}}</td>
+                        <th class="greyClass">Installation Service Completed?</th>
+                        <td>{{ $installationDetailsArr->installation_serivice_completed}}</td>
                     </tr> 
                     @endif
                     @if(isset($orderDetails))  

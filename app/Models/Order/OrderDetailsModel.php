@@ -16,13 +16,10 @@ class OrderDetailsModel extends Model{
     {
 
         $this->fillable = [
-            'id','order_id', 'customer_id', 'materials', 'quantity', 'dc_no',
+            'id','order_id', 'customer_id', 'materials', 'make', 'model', 'quantity', 'dc_no',
             'dc_date', 'product_serial_no', 'created_at', 'updated_at','created_by', 'updated_by'
         ];
-
-    
     }
-
     
     /**
     * This function is used to get orderDetails record for edit
@@ -34,6 +31,13 @@ class OrderDetailsModel extends Model{
         //->select('order_details.*')->get();  
         return $orderDetailsQueryResult;
     } 
-
-    
+    public function deleteOrderDetails($orderDetailsId) {
+        $orderDetails = OrderDetailsModel::find($orderDetailsId);
+        if ($orderDetails != null) {
+            $orderDetails->delete();
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

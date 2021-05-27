@@ -39,12 +39,28 @@ class CustomerController extends CommonController
             $customerModel = new CustomerModel();
             $customerModel->client_name = $request->input('client_name');
             $customerModel->type_of_customer = $request->input('type_of_customer');
-            $customerModel->email_id = $request->input('email_id');
+           
             $customerModel->address = $request->input('address');
-            $customerModel->contact1 = $request->input('contact1');
+            
             $customerModel->contact_person1 = $request->input('contact_person1');
-            $customerModel->contact2 = $request->input('contact2');
+            $customerModel->contact1 = $request->input('contact1');
+            $customerModel->designation_main = $request->input('designation_main');
+            //$customerModel->email_main = $request->input('email_main');
+            $customerModel->email_id = $request->input('email_id');
             $customerModel->contact_person2 = $request->input('contact_person2');
+            $customerModel->contact2 = $request->input('contact2');
+            $customerModel->designation_installation = $request->input('designation_installation');
+            $customerModel->email_installation = $request->input('email_installation');
+            
+            
+            $customerModel->contact_person3 = $request->input('contact_person3');
+            $customerModel->contact3 = $request->input('contact3');
+            $customerModel->designation_payment = $request->input('designation_payment');
+            $customerModel->email_payment = $request->input('email_payment');
+
+            $customerModel->email_installation = $request->input('email_installation');
+            $customerModel->email_payment = $request->input('email_payment');
+
             $customerModel->created_by = Session::get("loggedInUserId");
             $isSaved = $customerModel->save();
           
@@ -101,6 +117,7 @@ class CustomerController extends CommonController
         try {
             $customerData = $request->all();
             $customerModel = new CustomerModel();
+            Log::info("customerData: " . json_encode($customerData));
             $isUpdated = $customerModel->updateCustomerDetails($customerData);
             Log::info("isUpdated==>".$isUpdated);
             $customerList = $customerModel->getCustomerList();

@@ -2947,3 +2947,23 @@ div.tagsinput span.tag a:hover {
     left: 41%;
 }
 
+#loader_edit{
+	top: -7%;
+    left: 0%;
+    background: #a3a3a314;
+    position: absolute;
+    right: 0%;
+    bottom: 0;
+    opacity: 0.7;
+    z-index: 20;
+}
+#loader_payment{
+	top: -7%;
+    left: 0%;
+    background: #a3a3a314;
+    position: absolute;
+    right: 0%;
+    bottom: 0;
+    opacity: 0.7;
+    z-index: 20;
+}

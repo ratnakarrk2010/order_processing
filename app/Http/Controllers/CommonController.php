@@ -6,7 +6,7 @@ namespace App\Http\Controllers;
 class CommonController extends Controller
 {
 	//
-	protected $data;
+	protected $data = array();
 	public function __construct()
 	{
 		$this->data['success_message'] = '';

@@ -1,4 +1,7 @@
 @include('common.header')
+<script>
+   let isEdit = true;
+</script>
 <script src="{!! asset('js/order/order_form_validations.js') !!}"></script>
 <script src="{!! asset('js/order/order.js') !!}"></script>
 <style>
@@ -24,6 +27,7 @@ legend {
 </style>
 <script>
          var detailsDivSubDivIdCount = Number("<?php echo sizeof($orderDetailsArr); ?>") -1;
+         var installation_address_row = Number("<?php echo sizeof($installationAddresses); ?>");
          /**
          Material Div append */
          
@@ -37,50 +41,85 @@ legend {
                 className="oddRow";
                }
                $("#rowAppend").append(`
-               <div class="col-sm-12">
-                  <div class="form-group" id="materialDiv${detailsDivSubDivIdCount}">
+                     <div class="form-group" id="materialDiv${detailsDivSubDivIdCount}">
                         <div class="col-sm-3">
                            <div class="form-material">
                               <input class="form-control" type="text" id="materials${detailsDivSubDivIdCount}" name="materials[]" placeholder="Materials">
                               <input name="orderDetailsId[]" id ="orderDetailsId${detailsDivSubDivIdCount}" type="hidden" value="0">
-                              <label for="materials">Materials</label>
+                              <label for="materials" class="required">Materials</label>
+                              <div class="field-error" id="materials_${detailsDivSubDivIdCount}_error"></div>
+                           </div>
+                        </div>
+                        <div class="col-sm-3">
+                           <div class="form-material">
+                              <input class="form-control" type="text" id="make${detailsDivSubDivIdCount}" name="make[]" placeholder="Make">
+                              <label for="make${detailsDivSubDivIdCount}" class="required">Make</label>
+                              <div class="field-error" id="make_${detailsDivSubDivIdCount}_error"></div>
+                           </div>
+                        </div>
+                        <div class="col-sm-3">
+                           <div class="form-material">
+                              <input class="form-control" type="text" id="model${detailsDivSubDivIdCount}" name="model[]" placeholder="Model">
+                              <label for="model${detailsDivSubDivIdCount}" class="required">Model</label>
+                              <div class="field-error" id="model_${detailsDivSubDivIdCount}_error"></div>
                            </div>
                         </div>
                         <div class="col-sm-2">
                            <div class="form-material">
                               <input class="form-control" type="text" id="quantity${detailsDivSubDivIdCount}" name="quantity[]" placeholder="Quantity">
-                              <label for="quantity">Quantity</label>
+                              <label for="quantity" class="required">Quantity</label>
+                              <div class="field-error" id="quantity_${detailsDivSubDivIdCount}_error"></div>
                            </div>
                         </div>
                         <div class="col-sm-1">
                            <div class="form-material">
+                              <button  type="button" class="btn btn-danger btnOrderDTDelete" id="del${detailsDivSubDivIdCount}" loop-idx="${detailsDivSubDivIdCount}" divcnt='${detailsDivSubDivIdCount}' order-details-address-id="0"><i class="fa fa-trash"></i> Delete</button>
+                           </div>
+                        </div>
+                     </div>
+                 
+               `);
+               /*
+               <div class="col-sm-2">
+                           <div class="form-material">
                               <input class="form-control" type="text" id="dc_no${detailsDivSubDivIdCount}" name="dc_no[]" placeholder="DC No.">
-                              <label for="dc_no">DC No</label>
+                              <label for="dc_no" class="required">DC No</label>
+                              <div class="field-error" id="dc_no_${detailsDivSubDivIdCount}_error"></div>
                            </div>
                         </div>
                         <div class="col-sm-2">
                            <div class="form-material">
                               <input class="form-control" type="date" id="dc_date${detailsDivSubDivIdCount}" name="dc_date[]" placeholder="DC Date">
-                              <label for="dc_date">DC Date</label>
+                              <label for="dc_date" class="required">DC Date</label>
+                              <div class="field-error" id="dc_date_${detailsDivSubDivIdCount}_error"></div>
                            </div>
                         </div>
                         <div class="col-sm-2">
                            <div class="form-material">
                               <input class="form-control" type="text" id="product_serial_no${detailsDivSubDivIdCount}" name="product_serial_no[]" placeholder="Product serial no">
-                              <label for="product_serial_no">Product Sr.No</label>
+                              <label for="product_serial_no" class="required">Product Sr.No</label>
+                              <div class="field-error" id="product_serial_no_${detailsDivSubDivIdCount}_error"></div>
                            </div>
                         </div>
-                        <div class="col-sm-1">
-                           <div class="form-material">
-                              <i class="fa fa-trash" id="del${detailsDivSubDivIdCount}" divcnt='${detailsDivSubDivIdCount}' style="font-size:25px;color:red;cursor: pointer;"></i>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               `);
+               */
+               let inputsEls = $("#rowAppend :input").get();
+               Object.keys(inputsEls).forEach((key) => {
+                  let el = inputsEls[key];
+                  if (!(el.id instanceof HTMLElement)) {
+                     $(`#${el.id}`).blur(function () {
+                        validateField($(this), validatorObjects["poDetails"]);
+                     });
+                  }
+               });
+
                $(`#del${detailsDivSubDivIdCount}`).click(function() {
                   let divcnt = $(this).attr("divcnt");
-                  $(`#materialDiv${divcnt}`).remove();
+                  let po_details = document.getElementsByName("materials[]");
+                  if (po_details === undefined || po_details.length === 1) {
+                     bootbox.alert("You must add at least one record for PO details!", function() {});
+                  } else {
+                     $(`#materialDiv${divcnt}`).remove();
+                  }
                });
             });
          });
@@ -100,7 +139,8 @@ legend {
                            <hr />
                            <div class="card-block">
                               <form class="form-horizontal m-t-sm" action="{{ url('/order/update') }}" method="post" id="editOrderFormID" name="editOrderForm">
-                              <input type="hidden" id="id" name="id" value="{{$orderDetails->id}}"> 
+                              <input type="hidden" id="id" name="id" value="{{$orderDetails->id}}">
+                              <input type="hidden" id="loggedInUser" name="loggedInUser" value="{{$loggedInUser}}">
                                    
                               {{ csrf_field() }}
                               @include('common.flash-message')
@@ -161,24 +201,39 @@ legend {
                                     </div>
                                     <div class="col-sm-6">
                                        <div class="form-material">
-                                          <textarea class="form-control" id="installation_address" name="installation_address" rows="1"
-                                           placeholder="Installation Address" style="resize: none;">{{$orderDetails->installation_address}}</textarea>
-                                          <label for="installation_address" class="required">Installation Addess</label>
-                                          <div class="field-error" id="installation_address_error"></div>
+                                          <button  type="button" class="btn btn-app" id="addInstallationAddressEdit"
+                                           name="addInstallationAddressEdit" style="width:100%">ADD INSTALLATION ADDRESS</button>
                                        </div>
                                     </div>
                                  </div>
+                                 <div class="form-group" id="installationAddressesEdit">
+                                    @foreach ($installationAddresses as $installationAddress)
+                                       <div id="installationAddressDiv{{$loop->index}}">
+                                          <div class="col-sm-4">
+                                             <div class="form-material">
+                                                <textarea class="form-control" id="installation_address{{$loop->index}}" name="installation_address[]" rows="1" placeholder="Installation Address" style="resize: none;">{{ $installationAddress->installation_address }}</textarea>
+                                                <input type="hidden" id="installation_addr{{ $loop->index }}" name="installation_address_id[]" value="{{ $installationAddress->id }}">
+                                                <label for="installation_address{{$loop->index}}" class="required">Installation Address {{$loop->index + 1}}</label>
+                                                <div class="field-error" id="installation_address_{{$loop->index}}_error"></div>
+                                             </div>
+                                             <i class="fa fa-trash delInstallationAddress btnRemoveInstallationAddress" installation-address-id="{{ $installationAddress->id }}" 
+                                              loop-idx="{{ $loop->index }}"></i>
+                                          </div>
+                                          
+                                       </div>
+                                       @endforeach
+                                 </div>
                                 <div class="form-group">
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-6">
                                        <div class="form-material">
-                                         
+                                       <input type="hidden" id="order_collected_by" name="order_collected_by" value="{{ $orderDetails->order_collected_by}}">
                                            <select class="js-select2 form-control" id="order_collected_by_id" name="order_collected_by_id" style="width: 100%;" data-placeholder="Choose one..">
                                                 <option value="">---Select---</option>
                                                 @if(isset($salesmanLists))
                                                    @foreach($salesmanLists as $sales)
                                                    @if (isset($orderDetails->order_collected_by_id) && ($sales->id == $orderDetails->order_collected_by_id))
-                                                    <option value="{{$sales->id}}" selected="selected">{{ $sales->first_name}} {{ $sales->last_name}}</option>
-													<input type="hidden" id="order_collected_by" name="order_collected_by" value="{{ $sales->first_name}} {{ $sales->last_name}}">
+                                                   <option value="{{$sales->id}}" selected="selected">{{ $sales->first_name}} {{ $sales->last_name}}</option>
+													            
                                                     @else
                                                     <option value="{{$sales->id}}">{{ $sales->first_name}} {{ $sales->last_name}}</option>
                                                    @endif
@@ -189,7 +244,7 @@ legend {
                                           <div class="field-error" id="order_collected_by_error"></div>
                                        </div>
                                     </div>
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-6">
                                        <div class="form-material">
                                           <input class="form-control" type="text" id="warranty_period" name="warranty_period" 
                                           placeholder="Please enter warranty period" value="{{$orderDetails->warranty_period}}">
@@ -197,60 +252,78 @@ legend {
                                           <div class="field-error" id="warranty_period_error"></div>
                                        </div>
                                     </div>
-                                    
-                                    <div class="col-sm-4">
-                                          <div class="form-material">
-                                             <input class="form-control" type="text" id="total_po_value" name="total_po_value" 
-                                             placeholder="Please enter total po value" value="{{$orderDetails->total_po_value}}">
-                                             <label for="total_po_value" class="required">Total PO Value</label>
-                                             <div class="field-error" id="total_po_value_error"></div>
-                                          </div>
-                                    </div>
+                                                                        
                                  </div>
-
+								<div class="form-group">
+                                       <div class="col-sm-3">
+                                          <div class="form-material">
+                                             <input type="hidden" id="tax_value" name="tax_value" value="{{$orderDetails-> tax_value}}">
+                                             <select class="js-select2 form-control" id="tax_id" name="tax_id"  data-placeholder="Choose one..">
+                                                   <option value="">---Select---</option>
+                                                   @if(isset($allTaxes))
+                                                      @foreach($allTaxes as $tax)
+                                                      <option value="{{$tax->id}}">{{ $tax->tax_value}}</option>
+                                                      @endforeach
+                                                   @endif
+                                             </select>
+                                             <label for="tax_value" class="required">Tax value</label>
+                                             <div class="field-error" id="tax_id_error"></div>
+                                          </div>
+                                       </div>
+                                       <div class="col-sm-3">
+                                             <div class="form-material">
+                                                <input class="form-control" type="text" id="total_po_value" name="total_po_value" 
+                                                placeholder="Please enter total po value" value="{{$orderDetails->total_po_value}}">
+                                                <label for="total_po_value" class="required">Total PO Value (excluding taxes)</label>
+                                                <div class="field-error" id="total_po_value_error"></div>
+                                             </div>
+                                       </div>
+                                       <div class="col-sm-3">
+                                          <div class="form-material">
+                                             <input class="form-control" type="text" id="tax_amount" name="tax_amount" value="{{$orderDetails->tax_amount}}" readonly>
+                                             <label for="tax_amount">Tax Amount</label>
+                                             <div class="field-error" id="tax_amount_error"></div>
+                                          </div>
+                                       </div>
+                                       <div class="col-sm-3">
+                                          <div class="form-material">
+                                             <input class="form-control" type="text" id="total_order_amount" name="total_order_amount" value="{{$orderDetails->total_order_amount}}" readonly>
+                                             <label for="total_order_amount">Total PO Value (including taxes)</label>
+                                             <div class="field-error" id="total_order_amount_error"></div>
+                                          </div>
+                                       </div>
+                                 </div>
                                  <div class="form-group">
-                                 <div class="col-sm-4">
+                                 <div class="col-sm-6">
                                        <div class="form-material">
-                                          <select class="js-select2 form-control" id="payment_terms" name="payment_terms" style="width: 100%;" data-placeholder="Choose one..">
+                                       <input  type="hidden" id="payment_terms" name="payment_terms" value="{{ $orderDetails->payment_terms }}">
+                                          <select class="js-select2 form-control" id="payment_terms_id" name="payment_terms_id" style="width: 100%;" data-placeholder="Choose one..">
                                              <option value="">---Select---</option>
-                                             @if (isset($orderDetails->payment_terms) && $orderDetails->payment_terms =='80% advance 20% against delivery')
-                                             <option value="80% advance 20% against delivery" selected="selected">80% advance 20% against delivery</option>
-                                             @else
-                                             <option value="80% advance 20% against delivery">80% advance 20% against delivery</option>
-                                             @endif
-                                             @if (isset($orderDetails->payment_terms) && $orderDetails->payment_terms =='Payment seven days after invoice date')
-                                             <option value="Payment seven days after invoice date" selected="selected">Payment seven days after invoice date</option>
-                                             @else
-                                             <option value="Payment seven days after invoice date">Payment seven days after invoice date</option>
-                                             @endif
-                                             @if (isset($orderDetails->payment_terms) && $orderDetails->payment_terms =='Payment 30 days after invoice date')
-                                             <option value="Payment 30 days after invoice date" selected="selected">Payment 30 days after invoice date</option>
-                                             @else
-                                             <option value="Payment 30 days after invoice date">Payment 30 days after invoice date</option>
-                                             @endif
-                                             @if (isset($orderDetails->payment_terms) && $orderDetails->payment_terms =='End of month')
-                                             <option value="End of month" selected="selected">End of month</option>
-                                             @else
-                                             <option value="End of month">End of month</option>
-                                             @endif
-                                             @if (isset($orderDetails->payment_terms) && $orderDetails->payment_terms =='Cash with order')
-                                             <option value="Cash with order" selected="selected">Cash with order</option>
-                                             @else
-                                             <option value="Cash with order">Cash with order</option>
-                                             @endif
+                                              @if(isset($allPaymentTerms))
+                                                @foreach($allPaymentTerms as $pt)
+                                                @if (isset($orderDetails->payment_terms_id) && ($pt->id == $orderDetails->payment_terms_id))
+                                                   <option value="{{$pt->id}}"  selected="selected">{{ $pt->payment_terms}}</option>
+                                                   
+                                                @else
+                                                   <option value="{{$pt->id}}">{{ $pt->payment_terms}}</option>
+                                                @endif
+                                                @endforeach
+                                              @endif
                                           </select>
-                                          <label for="payment_terms">Payment Terms</label>
+                                          <label for="payment_terms" class="required">Payment Terms</label>
+                                          <div class="field-error" id="payment_terms_id_error"></div>
                                        </div>
                                     </div>
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-6">
                                        <div class="form-material">
-										<input  type="hidden" id="sales_initiator_by" name="sales_initiator_by">
+										 <input  type="hidden" id="sales_initiator_by" name="sales_initiator_by" value="{{ $orderDetails->sales_initiator_by}} ">        
                                           <select class="js-select2 form-control" id="sales_initiator_by_id" name="sales_initiator_by_id" style="width: 100%;" data-placeholder="Choose one..">
                                                 <option value="">---Select---</option>
                                                 @if(isset($managerLists))
                                                    @foreach($managerLists as $manager)
                                                       @if (isset($orderDetails->sales_initiator_by_id) && ($manager->id == $orderDetails->sales_initiator_by_id))
                                                          <option value="{{$manager->id}}"  selected="selected">{{ $manager->first_name}} {{ $manager->last_name}}</option>
+                                                         
                                                       @else
                                                          <option value="{{$manager->id}}">{{ $manager->first_name}} {{ $manager->last_name}}</option>
                                                       @endif
@@ -261,44 +334,8 @@ legend {
                                           <div class="field-error" id="sales_initiator_by_error"></div>
                                        </div>
                                     </div>
-                                    <div class="col-sm-4">
-                                       <div class="form-material">
-                                         <input  type="hidden" id="approved_by" name="approved_by">
-                                          <select class="js-select2 form-control" id="approved_by_id" name="approved_by_id" style="width: 100%;" data-placeholder="Choose one..">
-                                                <option value="">---Select---</option>
-                                                @if(isset($managementLists))
-                                                   @foreach($managementLists as $management)
-                                                      @if (isset($orderDetails->approved_by_id) && ($management->id == $orderDetails->approved_by_id))
-                                                         <option value="{{$management->id}}" selected="selected">{{ $management->first_name}} {{ $management->last_name}}</option>
-                                                      @else
-                                                         <option value="{{$management->id}}">{{ $management->first_name}} {{ $management->last_name}}</option>
-                                                      @endif
-                                                   @endforeach
-                                                @endif
-                                          </select>
-                                          <label for="sale_initialtor_by" class="required">Approved & Accepted By Management</label>
-                                          <div class="field-error" id="approved_by_error"></div>
-                                       </div>
-                                    </div>
                                     
-                                 </div>
-                                 <div class="form-group">
-                                    <div class="col-sm-6">
-                                       <div class="form-material">
-                                          <input class="form-control" type="text" id="invoice_no" name="invoice_no" 
-                                            placeholder="Please enter Invoice Number" value="{{$orderDetails->invoice_no}}">
-                                          <label for="invoice_no" class="required">Invoice Number</label>
-                                          <div class="field-error" id="invoice_no_error"></div>
-                                       </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                       <div class="form-material">
-                                          <input class="form-control" type="date" id="invoice_date" name="invoice_date" 
-                                            placeholder="Please enter Invoice Date"  value="{{$orderDetails->invoice_date}}">
-                                          <label for="invoice_date" class="required">Invoice Date</label>
-                                          <div class="field-error" id="invoice_date_error"></div>
-                                       </div>
-                                    </div>
+                                    
                                  </div>
                                 
                                  <!-- Changes -->
@@ -309,51 +346,79 @@ legend {
                                         </legend>
                                     <div class="row col-sm-12" id="rowAppend">
 									         @foreach($orderDetailsArr as $od)
+                                    <div class="form-group" id="materialDiv{{$loop->index}}">
                                        <div class="col-sm-3">
                                           <div class="form-material">
                                              <input class="form-control" type="text" id="materials0" name="materials[]" 
                                              placeholder="Materials" value="{{$od->materials}}">
                                              <input name="orderDetailsId[]" id ="orderDetailsId{{$loop->index}}" type="hidden" value="{{ $od->id}}">
-
-                                             <label for="materials">Materials</label>
+                                             <label for="materials" class="required">Materials</label>
+                                             <div class="field-error" id="materials_{{$loop->index}}_error"></div>
+                                          </div>
+                                       </div>
+                                       <div class="col-sm-3">
+                                          <div class="form-material">
+                                             <input class="form-control" type="text" id="make{{$loop->index}}" name="make[]" placeholder="Make" value="{{$od->make}}">
+                                             <label for="make{{$loop->index}}" class="required">Make</label>
+                                             <div class="field-error" id="make_{{$loop->index}}_error"></div>
+                                          </div>
+                                       </div>
+                                       <div class="col-sm-3">
+                                          <div class="form-material">
+                                             <input class="form-control" type="text" id="model{{$loop->index}}" name="model[]" placeholder="Model" value="{{$od->model}}">
+                                             <label for="model{{$loop->index}}" class="required">Model</label>
+                                             <div class="field-error" id="model_{{$loop->index}}_error"></div>
                                           </div>
                                        </div>
                                        <div class="col-sm-2">
                                           <div class="form-material">
+                                             <input class="form-control" type="text" id="quantity{{$loop->index}}" name="quantity[]" placeholder="Quantity" value="{{$od->quantity}}">
+                                             <label for="quantity{{$loop->index}}" class="required">Quantity</label>
+                                             <div class="field-error" id="quantity_{{$loop->index}}_error"></div>
+                                          </div>
+                                       </div>
+
+                                       <!-- div class="col-sm-2">
+                                          <div class="form-material">
                                              <input class="form-control" type="text" id="quantity0" name="quantity[]" 
-                                             placeholder="Quantity" value="{{$od->quantity}}">
-                                             <label for="quantity">Quantity</label>
+                                             placeholder="Quantity" value="$od->quantity}}">
+                                             <label for="quantity" class="required">Quantity</label>
                                           </div>
                                        </div>
                                     
                                        <div class="col-sm-2">
                                           <div class="form-material">
                                              <input class="form-control" type="text" id="dc_no0" name="dc_no[]" 
-                                             placeholder="DC No."  value="{{$od->dc_no}}" >
-                                             <label for="dc_no">DC No</label>
+                                             placeholder="DC No."  value="$od->dc_no}}" >
+                                             <label for="dc_no" class="required">DC No</label>
                                           </div>
                                        </div>
                                        <div class="col-sm-2">
                                           <div class="form-material">
                                              <input class="form-control" type="date" id="dc_date0" name="dc_date[]"
-                                              placeholder="DC Date" value="{{$od->dc_date}}">
-                                             <label for="dc_date">DC Date</label>
+                                              placeholder="DC Date" value="$od->dc_date}}">
+                                             <label for="dc_date" class="required">DC Date</label>
                                           </div>
                                        </div>
                                        <div class="col-sm-2">
                                           <div class="form-material">
                                              <input class="form-control" type="text" id="product_serial_no0" 
-                                             name="product_serial_no[]" placeholder="Product serial no" value="{{$od->product_serial_no}}">
-                                             <label for="product_serial_no">Product Sr.No</label>
+                                             name="product_serial_no[]" placeholder="Product serial no" value="$od->product_serial_no}}">
+                                             <label for="product_serial_no" class="required">Product Sr.No</label>
+                                          </div>
+                                       </div -->
+									            <div class="col-sm-1">
+                                          <div class="form-material">
+                                             <button  type="button" class="btn btn-danger btnOrderDTDelete" order-details-address-id="{{ $od->id }}" 
+                                                loop-idx="{{ $loop->index }}"><i class="fa fa-trash"></i> Delete</button>
                                           </div>
                                        </div>
-									            <div class="col-sm-1"></div>
-                                       @endforeach
                                     </div>
-                                    
+                                 
+                                 @endforeach
+                              </div>
 									</fieldset>
 									</div>
-                                   
                            <div class="form-group">
                               <div class="col-sm-12">
                                  <div class="form-material">
@@ -361,6 +426,25 @@ legend {
                                  </div>
                               </div>
                            </div>
+                          
+                           <!-- div class="form-group">
+                              <div class="col-sm-6">
+                                 <div class="form-material">
+                                    <input class="form-control" type="text" id="invoice_no" name="invoice_no" 
+                                       placeholder="Please enter Invoice Number" value="$orderDetails->invoice_no">
+                                    <label for="invoice_no" class="required">Invoice Number</label>
+                                    <div class="field-error" id="invoice_no_error"></div>
+                                 </div>
+                              </div>
+                              <div class="col-sm-6">
+                                 <div class="form-material">
+                                    <input class="form-control" type="date" id="invoice_date" name="invoice_date" 
+                                       placeholder="Please enter Invoice Date"  value="$orderDetails->invoice_date">
+                                    <label for="invoice_date" class="required">Invoice Date</label>
+                                    <div class="field-error" id="invoice_date_error"></div>
+                                 </div>
+                              </div>
+                           </div -->
                            <div class="form-group">
                                     <fieldset>
                                         <legend>
@@ -372,47 +456,142 @@ legend {
                                                 <div class="form-material">
                                                    <input class="form-control" type="date" id="material_procurement_date" name="material_procurement_date"
                                                     placeholder="Please enter material procurement date" value="{{$orderDetails->material_procurement_date}}">
-                                                   <label for="material_procurement_date" class="required">Material Procurement Date</label>
-                                                   <div class="field-error" id="material_procurement_date_error"></div>
+                                                   <label for="material_procurement_date" class="">Material Procurement Date</label>
+                                                  
                                                 </div>
                                              </div>
                                              <div class="col-sm-4">
                                                 <div class="form-material">
                                                    <input class="form-control" type="text" id="qc_testting_result" name="qc_testting_result" 
                                                    placeholder="Please enter QC Testting Result" value="{{$orderDetails->qc_testting_result}}">
-                                                   <label for="qc_testting_result" class="required">QC Testting Result</label>
-                                                   <div class="field-error" id="qc_testting_result_error"></div>
+                                                   <label for="qc_testting_result" class="">QC Testting Result</label>
+                                                  
                                                 </div>
                                              </div>
                                              <div class="col-sm-4">
                                                 <div class="form-material">
                                                    <input class="form-control" type="date" id="dispatch_date" name="dispatch_date" 
                                                    placeholder="Please enter dispatch date"  value="{{$orderDetails->dispatch_date}}">
-                                                   <label for="dispatch_date" class="required">Dispatch Date</label>
-                                                   <div class="field-error" id="dispatch_date_error"></div>
+                                                   <label for="dispatch_date" class="">Dispatch Date</label>
+                                                  
                                                 </div>
                                              </div>
                                           </div>
                                     </fieldset>
                                  </div>
-                                    <div class="form-group">
-                                       <div class="col-sm-12">
-                                          <div class="form-material">
-                                             <input class="form-control" type="text" id="remarks" name="remarks" 
-                                             placeholder="Please enter remarks" value="{{$orderDetails->remarks}}">
-                                             <label for="remarks">Remarks if any</label>
-                                          </div>
+                                 @if(Session::get('loggedInUserRole') == 1  || Session::get('loggedInUserRole') == 6 || Session::get('loggedInUserRole') == 7)
+                                 <div class="form-group">
+                                 <div class="col-sm-4">
+                                    <div class="form-material">
+                                          <select class="js-select2 form-control" id="order_status" name="order_status" style="width: 100%;" data-placeholder="Choose one..">
+                                                <option value="">---Select---</option>
+                                                @if (isset($orderDetails->order_status) && ($orderDetails->order_status == 0))
+                                                <option value="0" selected="selected">Pending</option>
+                                                @else
+                                                <option value="0">Pending</option>
+                                                @endif
+                                               
+                                                @if (isset($orderDetails->order_status) && ($orderDetails->order_status == 1))
+                                                <option value="1" selected="selected">Approved</option>
+                                                @else
+                                                <option value="1">Approved</option>
+                                                @endif
+                                                @if (isset($orderDetails->order_status) && ($orderDetails->order_status == 2))
+                                                <option value="2" selected="selected">Rejected</option>
+                                                @else
+                                                <option value="2">Rejected</option>
+                                                @endif
+                                                
+                                          </select>
+                                          <label for="order_status_id" class="required">Order Status</label>
+                                          <div class="field-error" id="order_status_error"></div>
                                        </div>
                                     </div>
-                                  
-                                    <div class="form-group m-b-0">
-                                    <div class="col-sm-9">
-                                        <button class="btn btn-app" type="button" id="btnUpdateOrder">Update</button>
-                                        <a href="/all/orders" ><button class="btn btn-app-red" type="button" id="">Cancel</button></a>
-                                    </div>
-                                </div>
+                              <div class="col-sm-8">
+                                 <div class="form-material">
+                                 <input  type="hidden" id="approved_by" name="approved_by" value="{{ $orderDetails->approved_by}}">
+
+                                    <select class="js-select2 form-control" id="approved_by_id" name="approved_by_id" style="width: 100%;" data-placeholder="Choose one..">
+                                          <option value="">---Select---</option>
+                                          @if(isset($managementLists))
+                                             @foreach($managementLists as $management)
+                                                @if (isset($orderDetails->approved_by_id) && ($management->id == $orderDetails->approved_by_id))
+                                                   <option value="{{$management->id}}" selected="selected">{{ $management->first_name}} {{ $management->last_name}}</option>
+                                                @else
+                                                   <option value="{{$management->id}}">{{ $management->first_name}} {{ $management->last_name}}</option>
+                                                @endif
+                                             @endforeach
+                                          @endif
+                                    </select>
+                                    <label for="sale_initialtor_by" class="required">Approved / Rejected By Management</label>
+                                    <div class="field-error" id="approved_by_id_error"></div>
                                  </div>
-                                
+                              </div>
+                           </div>
+                           @endif
+                           <div class="form-group">
+                              <!-- div class="col-sm-4">
+                                 <div class="form-material">
+                                       <select class="js-select2 form-control" id="ld_clause_applicable" name="ld_clause_applicable" style="width: 100%;" data-placeholder="Choose one..">
+                                             <option value="">---Select---</option>
+                                             if ($orderDetails->ld_clause_applicable == "Y")
+                                             <option value="Y" selected="selected">Yes</option>
+                                             else
+                                             <option value="Y">Yes</option>
+                                             
+                                             if ($orderDetails->ld_clause_applicable == "N")
+                                             <option value="N" selected="selected">No</option>
+                                             else
+                                             <option value="N">No</option>
+                                             endif
+                                       </select>
+                                       <label for="ld_clause_applicable" class="required">LD Clause applicable</label>
+                                       <div class="field-error" id="ld_clause_applicable_error"></div>
+                                    </div>
+                              </div -->
+                              <div class="col-sm-6">
+                                 <div class="form-material">
+                                    <input class="form-control" type="text" id="delivery_period" name="delivery_period" placeholder="Enter delivery period" value="{{$orderDetails->delivery_period}}">
+                                    <label for="delivery_period" class="">Delivery Period</label>
+                                    <div class="field-error" id="delivery_period_error"></div>
+                                 </div>
+                              </div>
+                              <div class="col-sm-6">
+                                 <div class="form-material">
+                                    <textarea class="form-control" id="other_terms" name="other_terms" rows="1" placeholder="Other terms" style="resize: none;">{{$orderDetails->other_terms}}</textarea>
+                                    <label for="other_terms">Any Other Terms</label>
+                                    <div class="field-error" id="other_terms_error"></div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="form-group">
+                              <div class="col-sm-12">
+                                 <div class="form-material">
+                                    <input class="form-control" type="text" id="remarks" name="remarks" 
+                                    placeholder="Please enter remarks" value="{{$orderDetails->remarks}}">
+                                    <label for="remarks">Remarks if any</label>
+                                 </div>
+                              </div>
+                           </div>
+                                  
+                           <div class="form-group m-b-0">
+                              <div class="col-sm-9">
+                                    <button class="btn btn-app" type="button" id="btnUpdateOrder">Update</button>
+                                    @if(Session::get('loggedInUserRole') == 1 || Session::get('loggedInUserRole') == 2 || Session::get('loggedInUserRole') == 6 || Session::get('loggedInUserRole') == 7)
+                                          <a href="{{ url('/all/orders')}}" class="btn btn-app-red">Cancel</a>
+                                    @endif
+                                    @if(Session::get('loggedInUserRole') == 5)
+                                          <a href="{{ url('/add/installation')}}" class="btn btn-app-red">Cancel</a>
+                                    @endif
+                                    @if(Session::get('loggedInUserRole') == 4)
+                                          <a href="{{ url('/add/paymentdetails')}}" class="btn btn-app-red">Cancel</a>
+                                    @endif
+                              </div>
+                           </div>
+                           </div>
+                           <div id="loader_edit">
+                              <img class="loading-img" src="{!! asset('img/ajax-loader.gif') !!}">
+                           </div>
                               </form>
                            </div>
                            <!-- .card-block -->

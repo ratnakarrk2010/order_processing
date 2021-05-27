@@ -20,7 +20,7 @@
         <link rel="icon" href="{!! asset('theme/assets/img/favicons/favicon.ico') !!}" />
 
         <!-- Google fonts -->
-        <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,900%7CRoboto+Slab:300,400%7CRoboto+Mono:400" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,900%7CRoboto+Slab:300,400%7CRoboto+Mono:400" />
 
         <!-- Page JS Plugins CSS -->
         <link rel="stylesheet" href="{!! asset('theme/assets/js/plugins/slick/slick.min.css') !!}" />
@@ -62,32 +62,29 @@
         <script src="{!! asset('js/lib/axios.min.js') !!}"></script>
         <script src="{!! asset('js/lib/bootbox.min.js') !!}"></script>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
+        <script src="{!! asset('js/toggle.js') !!}"></script>
+        <link rel="stylesheet" href="{!! asset('theme/assets/js/plugins/select2/select2.min.css') !!}" />
+        <link rel="stylesheet" href="{!! asset('theme/assets/js/plugins/select2/select2-bootstrap.css') !!}" />
+        <script src="{!! asset('theme/assets/js/plugins/select2/select2.full.min.js') !!}"></script>
         <script>
-            $(document).ready(function() {
-                //var id = $.session.get('loggedInUserId');
-               // console.log("id==>"+id);
-            });
-
+            let isRoleEdit = false;
             const baseURL = "{{ url('/') }}";
-
-            function openNav() {
-                document.getElementById("app-layout-drawer").style.width = "250px";
-                document.getElementById("app-layout-content").style.paddingLeft = "240px";
-                
+            const shouldShowPopupOnValidation = true;
+            const publicBaseURL = "{{ url('/public/index.php/') }}";
+			const loggedInUserRole = Number("{{ Session::get('loggedInUserRole') }}");
+            function getBaseURL() {
+                if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
+                    return "{{ url('/') }}";
+                } else {
+                    return "{{ url('/public/index.php/') }}";
+                }
             }
-
-            function closeNav() {
-                document.getElementById("app-layout-drawer").style.width = "0";
-                document.getElementById("app-layout-content").style.paddingLeft = "0px";
-                document.getElementById("layout-has-drawer").style.paddingLeft = "0px";
-                document.getElementById("app-layout-header").style.paddingLeft = "0px";
-              
-                //layout-has-drawer .app-layout-header
+            window.history.forward();
+            function noBack() {
+                window.history.forward();
             }
-            
-
-           
+            window.onload = noBack();
+            window.onunload = function () { null }; 
         </script>
         <!-- End Stylesheets -->
         <style>
@@ -116,7 +113,57 @@
             .highlight_error {
                 border: 1px solid #FF0000
             }
-           
+            .width_250{
+                width:250px ;
+            }
+            .width_0{
+                width:0px ;
+            }
+            .margin_left_0{
+                padding-left:0px !important;
+            }
+            .margin_left_250{
+                padding-left:250px !important;
+            }
+         
+            fieldset {
+            background-color: #eeeeee;
+            border: 1px solid #c0c0c0;
+            margin: 0 2px;
+            padding: 0.35em 0.625em 0.75em
+            }
+
+            legend {
+            background-color: gray;
+            color: white;
+            padding: 5px 10px;
+            }
+    
+   
+    @media all and (min-width: 0) and (max-width: 767px) {
+        .width_250{
+            width:250px;
+            z-index:5;
+        }
+        .width_0{
+            width:0px;
+        }
+        .margin_left_0{
+            padding-left:0px !important;
+        }
+        .margin_left_250{
+            padding-left:0px;
+        }
+    
+        .back_gr{
+            background: #0000007a;
+            z-index: 5;;
+        }
+       
+       
+    }
+
+
         </style>
     </head>
 

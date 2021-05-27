@@ -22,10 +22,10 @@
             </div>
             <div class="card-block">
                 <div class="row">
-                    <div class="col-sm-10"></div>
-                    
-                    <div class="col-sm-2">
-                     <a href="{{ url('/customer_export/excel')}}" class="btn btn-app btn_export"><i class="fa fa-file-excel-o"></i>&nbsp;Export</a>
+                                      
+                    <div class="col-sm-12 topButtonClass">
+                    <a href="{{ url('/add/customer') }}" class="btn btn-app"><i class="ion-android-add-circle"></i>&nbsp;Add</a>
+                     <a href="{{ url('/customer_export/excel')}}" class="btn btn-app"><i class="fa fa-file-excel-o"></i>&nbsp;Export</a>
 
                     </div>
                 </div><br>

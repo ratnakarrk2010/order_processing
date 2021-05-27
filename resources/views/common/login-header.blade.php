@@ -59,6 +59,14 @@
         .highlight_error {
             border: 1px solid #FF0000
         }
+        .display-2 {
+            margin-top: -2.4%!important;
+        }
+        @media all and (min-width: 0) and (max-width: 767px) {
+            .display-2 {
+                 margin-top: -6.4%!important;
+            }
+        }
     </style>
         <!-- End Stylesheets -->
     </head>
@@ -87,7 +95,7 @@
                             <div class="collapse navbar-collapse" id="header-navbar-collapse">
                                 <!-- Header search form -->
                                 <form class="navbar-form navbar-right app-search-form">
-                                    <p><b>Email:</b> test@gmail.com&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<b>Mobile:</b> 888888888</p>
+                                    <p><b>Email:</b> sales@eviska.com&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<b>Phone:</b> + 91 22 61461000</p>
                                     </form>
 
                               

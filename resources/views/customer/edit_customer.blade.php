@@ -55,69 +55,143 @@
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="form-material">
-                                        <input class="form-control" type="email" id="email_id" name="email_id" 
-                                        placeholder="Please enter email" required value="{{ $customerData->email_id}}">
-                                        <label for="email" class="required">Email</label>
-                                        <div class="field-error" id="email_id_error"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-4">
-                                    
-                                    <div class="form-material">
-                                        <textarea class="form-control" id="address" name="address" rows="6" 
+                                        <textarea class="form-control" id="address" name="address" rows="1" 
                                         placeholder="Please add address" style="resize: none;"> {{$customerData->address }}</textarea>
                                         <label for="address" class="required">Address</label>
                                         <div class="field-error" id="address_error"></div>
                                     </div>
                                 </div>
-                                <div class="col-sm-8">
+                                <!-- div class="col-sm-4">
+                                    <div class="form-material">
+                                        <input class="form-control" type="email" id="email_id" name="email_id" 
+                                        placeholder="Please enter email" required value=" // $customerData->email_id}}">
+                                        <label for="email" class="required">Email</label>
+                                        <div class="field-error" id="email_id_error"></div>
+                                    </div>
+                                </div -->
+                            </div>
+                            <div class="form-group">
+                                <fieldset>
+                                    <legend>
+                                        <h4>Main Contact Person Details:</h4>
+                                    </legend> 
                                     <div class="form-group">
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-3">
+                                            <div class="form-material">
+                                                <input class="form-control" type="text" id="contact_person1" name="contact_person1"
+                                                 placeholder="Please enter contact person 1"  value="{{ $customerData->contact_person1}}">
+                                                <label for="contact_person1" class="required">Contact Person 1</label>
+                                                <div class="field-error" id="contact_person_1_error"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-material">
+                                                <input class="form-control" type="text" id="designation_main" name="designation_main" placeholder="Please enter designation" value="{{ $customerData->designation_main }}">
+                                                <label for="designation_main" class="required">Designation</label>
+                                                <div class="field-error" id="designation_main_error"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <div class="form-material">
+                                                <input class="form-control" type="text" id="email_id" name="email_id" placeholder="Please enter emailId" value="{{ $customerData->email_id }}">
+                                                <label for="email_id" class="required">Email</label>
+                                                <div class="field-error" id="email_id_error"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
                                             <div class="form-material">
                                                 <input class="form-control" type="text" id="contact1" name="contact1"
-                                                 maxlength="10" placeholder="Please enter contact 1" value="{{ $customerData-> contact1}}">
+                                                 maxlength="10" placeholder="Please enter contact 1" value="{{ $customerData->contact1}}">
                                                 <label for="email" class="required">Contact No1</label>
                                                 <div class="field-error" id="contact1_error"></div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-material">
-                                                <input class="form-control" type="text" id="contact_person1" name="contact_person1"
-                                                 placeholder="Please enter contact person 1"  value="{{ $customerData-> contact_person1}}">
-                                                <label for="email" class="required">Contact Person 1</label>
-                                                <div class="field-error" id="contact_person1_error"></div>
-                                            </div>
-                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-6">
-                                            <div class="form-material">
-                                                <input class="form-control" type="text" id="contact2" name="contact2"  
-                                                maxlength="10" placeholder="Please enter contact 2" value="{{ $customerData-> contact2}}">
-                                                <label for="email">Contact No2</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div class="form-material">
-                                                <input class="form-control" type="text" id="contact_person2" name="contact_person2" 
-                                                placeholder="Please enter contact person 2" value="{{ $customerData-> contact_person2}}">
-                                                <label for="email">Contact Person 2</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
+                                </fieldset>
                             </div>
 
+                            <div class="form-group">
+                                <fieldset>
+                                    <legend>
+                                        <h4>For Installation Contact Details:</h4>
+                                    </legend> 
+                                    <div class="col-sm-3">
+                                        <div class="form-material">
+                                            <input class="form-control" type="text" id="contact_person2" name="contact_person2" 
+                                            placeholder="Please enter contact person 2" value="{{ $customerData->contact_person2}}">
+                                            <label for="email" class="">Contact Person 2</label>
+                                            <div class="field-error" id="contact_person_2_error"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-material">
+                                            <input class="form-control" type="text" id="designation_installation" name="designation_installation" placeholder="Please enter designation"  value="{{ $customerData->designation_installation }}">
+                                            <label for="designation_installation">Designation</label>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-material">
+                                            <input class="form-control" type="email" id="email_installation" name="email_installation" placeholder="Please enter emailId" value="{{ $customerData->email_installation }}">
+                                            <label for="email_installation" class="">Email</label>
+                                            <div class="field-error" id="email_installation_error"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-material">
+                                            <input class="form-control" type="text" id="contact2" name="contact2" maxlength="10" placeholder="Please enter contact no" value="{{ $customerData->contact2}}">
+                                            <label for="contact2" class="">Contact No2</label>
+                                            <div class="field-error" id="contact_2_error"></div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+
+                            <div class="form-group">
+                                <fieldset>
+                                    <legend>
+                                        <h4>For Payment Contact Details:</h4>
+                                    </legend>  
+                                <div class="col-sm-3">
+                                    <div class="form-material">
+                                        <input class="form-control" type="text" id="contact_person3" name="contact_person3" placeholder="Please enter contact person name" value="{{ $customerData->contact_person3 }}">
+                                        <label for="email" class="">Contact Person 3</label>
+                                        <div class="field-error" id="contact_person_3_error"></div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-material">
+                                        <input class="form-control" type="text" id="designation_payment" name="designation_payment" placeholder="Please enter designation" value="{{ $customerData->designation_payment }}">
+                                        <label for="designation_payment">Designation</label>
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-material">
+                                        <input class="form-control" type="text" id="email_payment" name="email_payment" placeholder="Email" value="{{ $customerData->email_payment }}">
+                                        <label for="email_payment" class="">Email</label>
+                                        <div class="field-error" id="email_payment_error"></div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-material">
+                                        <input class="form-control" type="text" id="contact3" name="contact3" minlength="10" maxlength="10" placeholder="Please enter contact number" value="{{ $customerData->contact3 }}">
+                                        <label for="email" class="">Contact No3</label>
+                                        <div class="field-error" id="contact_3_error"></div>
+                                    </div>
+                                </div>
+                                </fieldset>
+                            </div>
                             
 
                             <div class="form-group m-b-0">
                                 <div class="col-sm-9">
                                     <button class="btn btn-app" type="button" name="btnUpdateCustomer" id="btnUpdateCustomer">Update</button>
-                                    <a href="/all/customer" ><button class="btn btn-app-red	" type="button" id="">Cancel</button></a>
+                                    <button class="btn btn-app-red" type="button" id="btnCancelEdit">Cancel</button>
                                 </div>
+                            </div>
+                            <div id="loader_edit">
+                                <img class="loading-img" src="{!! asset('img/ajax-loader.gif') !!}">
                             </div>
                         </form>
                     </div>

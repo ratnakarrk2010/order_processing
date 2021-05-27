@@ -10,7 +10,49 @@ $(document).ready(function() {
     });
 });
 
+        $(document).ready(function() {
+            $(".form-group .form-control").blur(function() {
+                if ($(this).val() != "") {
+                    $(this).siblings("label").addClass("active");
+                } else {
+                    $(this).siblings("label").removeClass("active");
+                }
+            });
+        });
+    
+
 </script>
+<style>
+     .form-group {
+            position: relative;
+        }
+        label {
+            position: absolute;
+            left: 2%;
+            top: 18%;
+            transition: all .3s;
+            color: #999;
+            font-weight: normal;
+        }
+      .form-control:focus~label {
+                left: 1.5%;
+                top: -28%;
+                background: #fff;
+                padding: 0 5px;
+                color: #0275d8!important;
+            }
+        
+        label.active {
+            left: 1.5%;
+            top: -28%;
+            background: #fff;
+            padding: 0 5px;
+        }
+
+        .form-control:focus {
+            border: 1.5px solid#0275d8 !important;
+        }
+</style>
 
 
 <main class="app-layout-content">
@@ -29,9 +71,9 @@ $(document).ready(function() {
 <div class="page-content">
     <div class="container">
         <div class="row">
-        <div class="col-md-3"></div>
+        <div class="col-md-4"></div>
             <!-- Login card -->
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="card">
                     <h3 class="card-header h4">Login</h3>
                     <div class="card-block">
@@ -44,15 +86,21 @@ $(document).ready(function() {
                         @endif
                         {{ csrf_field() }}
                         @include('common.flash-message')
-                            <div class="form-group">
-                                <label for="payment_terms" class="required">Username</label>
-                                <input type="username" class="form-control" id="username" name="username" placeholder="Username" />
+                        <div class="form-group">
+                          
+                               
+                                <input type="username" class="form-control" id="username" name="username" autofocus  />
+                                <label for="payment_terms" class="required ">Username</label>
                                 <div class="field-error" id="username_error"></div>
+                           
                             </div>
                             <div class="form-group">
-                                <label class="required" for="frontend_login_password">Password</label>
-                                <input type="password" class="form-control" id="password" name="password" placeholder="Password" />
+                            
+                             
+                                <input type="password" class="form-control" id="password" name="password"  />
+                                <label for="frontend_login_password" class="required">Password</label>
                                 <div class="field-error" id="password_error"></div>
+                            
                             </div>
                             <!--<div class="form-group">
                                 <label for="frontend_login_remember" class="css-input switch switch-sm switch-app">
@@ -72,7 +120,7 @@ $(document).ready(function() {
             </div>
             <!-- .col-md-6 -->
             <!-- End login -->
-            <div class="col-md-3"></div>
+            <div class="col-md-4"></div>
            
 
         </div>

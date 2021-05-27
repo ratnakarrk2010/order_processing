@@ -16,9 +16,10 @@ class CustomerModel extends Model{
     {
 
         $this->fillable = [
-            'id', 'client_name', 'type_of_customer', 'email_id', 'address', 'contact1',
-            'contact_person1', 'contact2', 'contact_person2', 'is_deleted', 'created_at', 'updated_at',
-            'created_by', 'updated_by'
+            'id', 'client_name', 'type_of_customer', 'email_id', 'address', 'contact_person1', 'contact1',
+            'designation_main', 'email_id', 'contact_person2', 'contact2', 'designation_installation',
+            'email_installation', 'contact_person3', 'contact3', 'designation_payment', 'email_payment',
+            'is_deleted', 'created_at', 'updated_at', 'created_by', 'updated_by'
         ];
 
         //$this->created_by = Session::get("loggedInUserId") != '' ? Session::get("loggedInUserId") : 0;

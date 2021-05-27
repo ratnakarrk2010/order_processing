@@ -35,7 +35,7 @@ class UsersModel extends Model{
     public function getSalesUserList() {
         $query = DB::table('users')
         ->where('users.is_deleted', 'N')
-        ->where('users.role_id','=', 2)
+        ->where('users.role_id','!=', 1)
         ->join('roles', 'roles.id', '=', 'users.role_id')
         ->select('users.*','roles.role_name')->get();   
         return $query;

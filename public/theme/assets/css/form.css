@@ -50,10 +50,52 @@
 .table > tbody > tr > td{
     padding: 0.5em !important;
 }
-
+.delInstallationAddress{
+    position: absolute;
+    right: 4%;
+    bottom: 19%;
+    z-index: 5;
+    color:#d9534f;
+    cursor: pointer;
+}
+table.dataTable{
+    font-size:85%;
+}
+.table-bordered {
+    border: 1px solid #eee !important;
+}
+.customeTbl{
+    margin-bottom: 0px !important;
+}
+/* .modal-content {
+    box-shadow: 0 5px 15px rgb(0 0 0 / 50%);
+    height: 600px !important;
+    overflow: auto;
+} */
+.paymentModalCls{
+    box-shadow: 0 5px 15px rgb(0 0 0 / 50%);
+    height: 600px !important;
+    overflow: auto;
+}
+.topButtonClass{
+    text-align: right;
+}
+.modal-lg {
+    width: 85%;
+}
 @media (min-width: 320px) and (max-width: 767px) {
     .btn_export {
         padding: 5px;
+    }
+    .customeTbl{
+        margin-bottom: 0px !important;
+    }
+    .table-responsive {
+        width: 100%;
+        margin-bottom: 0px !important;
+        overflow-y: hidden;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+        border: 1px solid #eee;
     }
     .margin_bottom {
         position: absolute;
@@ -63,6 +105,9 @@
     .btn_payment {
         margin-top: 2.5%;
     }
+	div.table-responsive>div.dataTables_wrapper>div.row {
+		display: flex;
+	}
 }
 
 @media (min-width: 371px) and (max-width: 400px) {

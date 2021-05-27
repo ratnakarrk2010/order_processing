@@ -20,6 +20,11 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\RoleMasterController;
+use App\Http\Controllers\PaymentTermsController;
+use App\Http\Controllers\MenuMasterController;
+use App\Http\Controllers\MenuController;
+use App\Http\Controllers\TaxMasterController;
 
 Route::post('/order', [GoogleSpreadSheetController::class, 'submitOrder']);
 Route::get('/order', [OrderDataController::class, 'showOrderForm']);
@@ -33,6 +38,32 @@ Route::get('/login/{val}',  [LoginController::class, 'sessionExpired']);
  
 Route::group(['middleware' => 'osession'], function() {
     Route::get('/dashboard', [DashboardController::class, 'dashboard']);
+
+    //Roles Route
+    Route::get('/role/list', [RoleMasterController::class, 'index']);
+    Route::post('/save/role', [RoleMasterController::class, 'saveRole']);
+    Route::get('/role/delete/{roleId}', [RoleMasterController::class, 'deleteRole']);
+    Route::post('/update/role', [RoleMasterController::class, 'updateRoleDetails']);
+    
+    //Payment Terms Route
+    Route::get('/paymentterms/list', [PaymentTermsController::class, 'index']);
+    Route::post('/save/payment/terms', [PaymentTermsController::class, 'savePaymentTerms']);
+    Route::get('/payment/terms/delete/{roleId}', [PaymentTermsController::class, 'deletePaymentTerms']);
+    Route::post('/update/payment/terms', [PaymentTermsController::class, 'updatePaymentTermsDetails']);
+     
+	//Tax Route
+	Route::get('/tax/list', [TaxMasterController::class, 'index']);
+	Route::post('/save/tax', [TaxMasterController::class, 'saveTax']);
+	Route::get('/tax/delete/{taxId}', [TaxMasterController::class, 'deleteTax']);
+	Route::post('/update/tax', [TaxMasterController::class, 'updateTaxDetails']);
+
+    //Menu Routes
+    Route::get('/menu/list', [MenuMasterController::class, 'index']);
+    Route::get('/rolemenu/map/list', [MenuMasterController::class, 'menuMappingList']);
+    Route::post('/save/rolemenu/map', [MenuMasterController::class, 'saveRoleMenuMap']);
+    Route::post('/update/role/menumap', [MenuMasterController::class, 'updateRoleMenuMap']);
+    Route::get('/rolemenu/delete/{roleMapId}', [MenuMasterController::class, 'deleteRoleMap']);
+    
     //Users Route
     Route::get('/add/user', [UsersController::class, 'index']);
     Route::post('/save/user', [UsersController::class, 'createUser']);
@@ -75,4 +106,10 @@ Route::group(['middleware' => 'osession'], function() {
     Route::post('/submit/paymentdetails', [OrderDataController::class, 'submitPaymentDetails']);
     Route::get('/order_export/excel', [OrderDataController::class, 'exportOrderData'])->name('order_export.excel');
     Route::get('/download/pdf/{orderId}',[OrderDataController::class,'generateOrderFormPDF']);
+    Route::post('/update/paymentdetails', [OrderDataController::class, 'updatePaymentDetails']);
+
+    Route::get('/menu/mapping', [MenuController::class, 'showMenuMappingPage']);
+    Route::post('/search/menu/mapping', [MenuController::class, 'getMenuMappingForRole']);
+    Route::post('/map/menu', [MenuController::class, 'updateMenuMapping']);
+    Route::post('/installation/assigned', [OrderDataController::class, 'saveInstallationPerson']);
 });

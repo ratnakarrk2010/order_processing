@@ -83,8 +83,11 @@
                         <div class="form-group m-b-0">
                             <div class="col-sm-9">
                                 <button class="btn btn-app" type="button" name="btnUpdateUser" id="btnUpdateUser">Update</button>
-                                <a href="/all/user" ><button class="btn btn-app-red	" type="button" id="">Cancel</button></a>
+                                <a href="{{ url('/all/user') }}" ><button class="btn btn-app-red	" type="button" id="">Cancel</button></a>
                             </div>
+                        </div>
+                        <div id="loader_edit">
+                            <img class="loading-img" src="{!! asset('img/ajax-loader.gif') !!}">
                         </div>
                     </form>
                 </div>

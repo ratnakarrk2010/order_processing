@@ -3,12 +3,24 @@ $(document).ready(function () {
     $("#btnLogin").click(function () {
         //$("#loader").show();
         console.log("In login");
-        const isValid = isValidForm("loginFormID", validatorObjects["loginForm"]);
+        const isValid = isValidForm(
+            "loginFormID",
+            validatorObjects["loginForm"]
+        );
         if (isValid) {
             $("#loader").show();
             var loginForm = document.getElementById("loginFormID");
             loginForm.submit();
-        } 
+        } else {
+            let invalidFields = getInvalidFields(
+                "loginFormID",
+                validatorObjects["loginForm"]
+            );
+            bootbox.alert(
+                `Fill values for the fields: ${_.join(invalidFields, ",")}`,
+                function () {}
+            );
+        }
     });
 
     $("form").each(function () {

@@ -8,89 +8,112 @@
     <!-- Stats -->
     <div class="row">
         
-        <div class="col-sm-6 col-lg-4">
         @if(Session::get("loggedInUserRole") == 1 || Session::get("loggedInUserRole") == 7)
-            <a class="card bg-blue bg-inverse" href="javascript:void(0)" id="clientMaster" >
-            <div class="card-block clearfix">
-                    <div class="pull-right">
-                        <p class="h6 text-muted m-t-0 m-b-xs">Client Master</p>
-                        <p class="h3 m-t-sm m-b-0">{{ $allcustomers}}</p>
-                    </div>
-                    <div class="pull-left m-r">
-                        <span class="img-avatar img-avatar-48 bg-gray-light-o"><i class="ion-ios-people	fa-1-5x"></i></span>
-                    </div>
-                </div>
-            </a>
-        @else
-            <a class="card bg-blue bg-inverse" href="javascript:void(0)" id="" >
+            <div class="col-sm-6 col-lg-4">
+                <a class="card bg-blue bg-inverse" href="javascript:void(0)" id="clientMaster" >
                 <div class="card-block clearfix">
-                    <div class="pull-right">
-                        <p class="h6 text-muted m-t-0 m-b-xs">Client Master</p>
-                        <p class="h3 m-t-sm m-b-0">{{ $allcustomers}}</p>
+                        <div class="pull-right">
+                            <p class="h6 text-muted m-t-0 m-b-xs">Client Master</p>
+                            <p class="h3 m-t-sm m-b-0">{{ $allcustomers}}</p>
+                        </div>
+                        <div class="pull-left m-r">
+                            <span class="img-avatar img-avatar-48 bg-gray-light-o"><i class="ion-ios-people	fa-1-5x"></i></span>
+                        </div>
                     </div>
-                    <div class="pull-left m-r">
-                        <span class="img-avatar img-avatar-48 bg-gray-light-o"><i class="ion-ios-people	fa-1-5x"></i></span>
-                    </div>
-                </div>
-            </a>
+                </a>
+            </div>
         @endif
-        </div>
         <!-- .col-sm-6 -->
-        <div class="col-sm-6 col-lg-4">
-        @if(Session::get("loggedInUserRole") == 1 || Session::get("loggedInUserRole") == 7)
-            <a class="card" href="javascript:void(0)" id="orderList">
-            <div class="card-block clearfix">
-                    <div class="pull-right">
-                        <p class="h6 text-muted m-t-0 m-b-xs">Total Orders(Per Finantial Year)</p>
-                        <p class="h3 text-blue m-t-sm m-b-0">{{ $allorders }}</p>
-                    </div>
-                    <div class="pull-left m-r">
-                        <span class="img-avatar img-avatar-48 bg-blue bg-inverse"><i class="ion-ios-bell fa-1-5x"></i></span>
-                    </div>
-                </div>
-            </a>
-        @else 
-        <a class="card" href="javascript:void(0)">
+        @if(Session::get("loggedInUserRole") == 1 || Session::get("loggedInUserRole") == 2 || Session::get("loggedInUserRole") == 5 || Session::get("loggedInUserRole") == 7)
+            <div class="col-sm-6 col-lg-4">
+                <a class="card" href="javascript:void(0)" id="orderList">
                 <div class="card-block clearfix">
-                    <div class="pull-right">
-                        <p class="h6 text-muted m-t-0 m-b-xs">Total Orders(Per Finantial Year)</p>
-                        <p class="h3 text-blue m-t-sm m-b-0">{{ $allorders }}</p>
+                        <div class="pull-right">
+                            <p class="h6 text-muted m-t-0 m-b-xs">Total Orders (Per Financial Year)</p>
+                            <p class="h3 text-blue m-t-sm m-b-0">{{ $allorders }}</p>
+                        </div>
+                        <div class="pull-left m-r">
+                            <span class="img-avatar img-avatar-48 bg-blue bg-inverse"><i class="ion-ios-bell fa-1-5x"></i></span>
+                        </div>
                     </div>
-                    <div class="pull-left m-r">
-                        <span class="img-avatar img-avatar-48 bg-blue bg-inverse"><i class="ion-ios-bell fa-1-5x"></i></span>
+                </a>
+            </div>
+        @elseif (Session::get("loggedInUserRole") != 4)
+            <div class="col-sm-6 col-lg-4">
+                <a class="card" href="javascript:void(0)">
+                    <div class="card-block clearfix">
+                        <div class="pull-right">
+                            <p class="h6 text-muted m-t-0 m-b-xs">Total Orders(Per Financial Year)</p>
+                            <p class="h3 text-blue m-t-sm m-b-0">{{ $allorders }}</p>
+                        </div>
+                        <div class="pull-left m-r">
+                            <span class="img-avatar img-avatar-48 bg-blue bg-inverse"><i class="ion-ios-bell fa-1-5x"></i></span>
+                        </div>
                     </div>
-                </div>
-            </a>
+                </a>
+            </div>
         @endif
-        </div>
+
+        @if(Session::get("loggedInUserRole") == 1 || Session::get("loggedInUserRole") == 2 || Session::get("loggedInUserRole") == 5 || Session::get("loggedInUserRole") == 7)
+            <div class="col-sm-6 col-lg-4">
+                <a class="card" href="javascript:void(0)">
+                    <div class="card-block clearfix">
+                        <div class="pull-right">
+                            <p class="h6 text-muted m-t-0 m-b-xs">Total Order Value</p>
+                            <p class="h3 text-blue m-t-sm m-b-0">{{ $totalOrderAmount }}</p>
+                        </div>
+                        <div class="pull-left m-r">
+                            <span class="img-avatar img-avatar-48 bg-blue bg-inverse"><i class="ion-ios-bell fa-1-5x"></i></span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        @endif
+        @if(!Session::get("loggedInUserRole") == 5 || Session::get("loggedInUserRole") == 4 )
+            <div class="col-sm-6 col-lg-4">
+                <a class="card" href="javascript:void(0)">
+                    <div class="card-block clearfix">
+                        <div class="pull-right">
+                            <p class="h6 text-muted m-t-0 m-b-xs">Payment Outstanding</p>
+                            <p class="h3 text-blue m-t-sm m-b-0">{{ $balancePayment }}</p>
+                        </div>
+                        <div class="pull-left m-r">
+                            <span class="img-avatar img-avatar-48 bg-blue bg-inverse"><i class="ion-ios-bell fa-1-5x"></i></span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        @endif
         <!-- .col-sm-6 -->
-        <div class="col-sm-6 col-lg-4">
-        @if(Session::get("loggedInUserRole") == 1 || Session::get("loggedInUserRole") == 7)
-            <a class="card bg-purple bg-inverse" href="javascript:void(0)" id="pendingOrderList">
-            <div class="card-block clearfix">
-                    <div class="pull-right">
-                        <p class="h6 text-muted m-t-0 m-b-xs">Pending Orders</p>
-                        <p class="h3 m-t-sm m-b-0">{{ $allPendingOrders }}</p>
-                    </div>
-                    <div class="pull-left m-r">
-                        <span class="img-avatar img-avatar-48 bg-gray-light-o"><i class="ion-ios-email fa-1-5x"></i></span>
-                    </div>
-                </div>
-            </a>
-        @else
-            <a class="card bg-purple bg-inverse" href="javascript:void(0)">
+        @if(Session::get("loggedInUserRole") == 1  || Session::get("loggedInUserRole") == 2 || Session::get("loggedInUserRole") == 5 || Session::get("loggedInUserRole") == 7)
+            <div class="col-sm-6 col-lg-4">
+                <a class="card bg-purple bg-inverse" href="javascript:void(0)" id="pendingOrderList">
                 <div class="card-block clearfix">
-                    <div class="pull-right">
-                        <p class="h6 text-muted m-t-0 m-b-xs">Pending Orders</p>
-                        <p class="h3 m-t-sm m-b-0">{{ $allPendingOrders }}</p>
+                        <div class="pull-right">
+                            <p class="h6 text-muted m-t-0 m-b-xs">Pending Orders</p>
+                            <p class="h3 m-t-sm m-b-0">{{ $allPendingOrders }}</p>
+                        </div>
+                        <div class="pull-left m-r">
+                            <span class="img-avatar img-avatar-48 bg-gray-light-o"><i class="ion-ios-email fa-1-5x"></i></span>
+                        </div>
                     </div>
-                    <div class="pull-left m-r">
-                        <span class="img-avatar img-avatar-48 bg-gray-light-o"><i class="ion-ios-email fa-1-5x"></i></span>
+                </a>
+            </div>
+        @elseif (Session::get("loggedInUserRole") != 4)
+            <div class="col-sm-6 col-lg-4">
+                <a class="card bg-purple bg-inverse" href="javascript:void(0)">
+                    <div class="card-block clearfix">
+                        <div class="pull-right">
+                            <p class="h6 text-muted m-t-0 m-b-xs">Pending Orders</p>
+                            <p class="h3 m-t-sm m-b-0">{{ $allPendingOrders }}</p>
+                        </div>
+                        <div class="pull-left m-r">
+                            <span class="img-avatar img-avatar-48 bg-gray-light-o"><i class="ion-ios-email fa-1-5x"></i></span>
+                        </div>
                     </div>
-                </div>
-            </a>
-            @endif
-        </div>
+                </a>
+            </div>
+        @endif
         <!-- .col-sm-6 -->
     </div>
     <!-- .row -->
@@ -179,10 +202,11 @@
                             <th>OPF&nbsp;No</th>
                             <th>OPF&nbsp;Date</th>
                             <th>PO&nbsp;No</th>
-							<th>Address</th>
-                            <th>Approved&nbsp;By</th> 
+							<!--<th>Address</th>-->
+                            <th>Order&nbsp;Status</th>
+                            <th>Approved&nbsp;/Rejected&nbsp;By</th>  
                                                          
-                            <th>Actions</th>
+                            <th style="width:15%;">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -194,14 +218,23 @@
                             <td class="">{{$order->opf_no}}</td>
                             <td class="">{{$order->opf_date}}</td>
                             <td class="">{{$order->po_no}}</td>
-							<td class="">{{$order->installation_address}}</td>
+							<!--<td class="">{{$order->installation_address}}</td>-->
+                            @if ($order->order_status == 0)
+                            <td style="color:#337ab7;"><b>Pending</b></td>
+                            @elseif ($order->order_status == 1)
+                            <td style="color:#7dc855;"><b>Approved</b></td>
+                            @elseif ($order->order_status == 2)
+                            <td style="color:#fd5e5e;"><b>Rejected</b></td>
+                            @endif
                             <td class="">{{$order->approved_by}}</td>
                            
                             <td class="text-center">
                                 <div class="">
+                                 
+                                    <!--<a href="{{ url('/order/edit/'.$order->id) }}" class="btn btn-xs btn-success" type="button" data-toggle="tooltip" title="Edit Order"><i class="ion-edit"></i></a>                                  
+                                    <button class="btn btn-xs btn-danger btnRemoveOrder" type="button" data-toggle="tooltip" title="Remove Order" order-id="{{ $order->id }}"><i class="ion-close"></i></button>-->
                                    
-                                    <a href="{{ url('/order/edit/'.$order->id) }}" class="btn btn-xs btn-success" type="button" data-toggle="tooltip" title="Edit Order"><i class="ion-edit"></i></a>                                    
-                                    <button class="btn btn-xs btn-danger btnRemoveOrder" type="button" data-toggle="tooltip" title="Remove Order" order-id="{{ $order->id }}"><i class="ion-close"></i></button>
+                                   
                                     <a href="{{ url('/order/details/'.$order->id) }}"  class="btn btn-xs btn-primary" type="button" data-toggle="tooltip" title="View Details"><i class="ion-eye"></i></a>
 									 <a href="{{ url('/download/pdf/'.$order->id) }}"  class="btn btn-xs btn-danger" type="button" data-toggle="tooltip" title="PDF"><i class="fa fa-file-pdf-o"></i></a>
                                 </div>
@@ -232,7 +265,7 @@
                 </div><br>
                 <!-- DataTables init on table by adding .js-dataTable-full class, functionality initialized in js/pages/base_tables_datatables.js -->
                 <div class="table-responsive">
-                <table class="table table-bordered table-striped table-vcenter" id="orderId">
+                <table class="table table-bordered table-striped table-vcenter" id="pendingorderId">
                     <thead>
                         <tr>
                             <th>Sr.No</th>
@@ -240,10 +273,11 @@
                             <th>OPF&nbsp;No</th>
                             <th>OPF&nbsp;Date</th>
                             <th>PO&nbsp;No</th>
-							<th>Address</th>
-                            <th>Approved&nbsp;By</th> 
-                                                         
-                            <th>Actions</th>
+							<!--<th>Address</th>-->
+                            <th>Order&nbsp;Status</th>
+                            <th>Approved&nbsp;/Rejected&nbsp;By</th> 
+                                                                                   
+                            <th style="width:15%;">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -255,15 +289,24 @@
                             <td class="">{{$pendingOrder->opf_no}}</td>
                             <td class="">{{$pendingOrder->opf_date}}</td>
                             <td class="">{{$pendingOrder->po_no}}</td>
-						   <td class="">{{$pendingOrder->installation_address}}</td>
+						   <!--<td class="">{{$pendingOrder->installation_address}}</td>-->
+                            @if ($pendingOrder->order_status == 0)
+                            <td style="color:#337ab7;"><b>Pending</b></td>
+                            @elseif ($pendingOrder->order_status == 1)
+                            <td style="color:#7dc855;"><b>Approved</b></td>
+                            @elseif ($pendingOrder->order_status == 2)
+                            <td style="color:#fd5e5e;"><b>Rejected</b></td>
+                            @endif
                             <td class="">{{$pendingOrder->approved_by}}</td>
                            
                             <td class="text-center">
                                 <div class="">
                                    
-                                    <a href="{{ url('/order/edit/'.$pendingOrder->id) }}" class="btn btn-xs btn-success" type="button" data-toggle="tooltip" title="Edit Order"><i class="ion-edit"></i></a>                                    
-                                    <button class="btn btn-xs btn-danger btnRemoveOrder" type="button" data-toggle="tooltip" title="Remove Order" order-id="{{ $pendingOrder->id }}"><i class="ion-close"></i></button>
+                                    <!--<a href="{{ url('/order/edit/'.$pendingOrder->id) }}" class="btn btn-xs btn-success" type="button" data-toggle="tooltip" title="Edit Order"><i class="ion-edit"></i></a>                                    
+                                    <button class="btn btn-xs btn-danger btnRemoveOrder" type="button" data-toggle="tooltip" title="Remove Order" order-id="{{ $pendingOrder->id }}"><i class="ion-close"></i></button>-->
+                                  
                                     <a href="{{ url('/order/details/'.$pendingOrder->id) }}"  class="btn btn-xs btn-primary" type="button" data-toggle="tooltip" title="View Details"><i class="ion-eye"></i></a>
+                                    <a href="{{ url('/download/pdf/'.$order->id) }}"  class="btn btn-xs btn-danger" type="button" data-toggle="tooltip" title="PDF"><i class="fa fa-file-pdf-o"></i></a>
                                 </div>
                             </td>
                         </tr>
@@ -276,7 +319,40 @@
         </div>
         <!-- .card -->
          <!-- End Dynamic Table Order List Full -->
-
+         <hr />
+         @if (Session::get("loggedInUserRole") == 1  || Session::get("loggedInUserRole") == 7)
+         <div class="row">
+            <div class="col-sm-4">
+                <div class="form-material">
+                    <select class="js-select2 form-control" id="role_id" name="role_id" style="width: 100%;" data-placeholder="Choose one..">
+                        <option value="">---Select---</option>
+                        @foreach($roles as $role)
+                            <option value="{{ $role->id }}">{{ $role->role_name }}</option>
+                        @endforeach
+                    </select>
+                    <label for="role_id">Role</label>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-material">
+                    <select class="js-select2 form-control" id="userId" name="userId" style="width: 100%;" data-placeholder="Choose one..">
+                        <option value="">---Select---</option>
+                    </select>
+                    <label for="userId">User</label>
+                </div>
+            </div>
+            <!-- div class="col-sm-2">
+                <div class="form-material">
+                    <button type="button" name="btnGetDashboard" id="btnGetDashboard" class="btn btn-sm btn-primary">Get Dashboard</button>
+                </div>
+            </div -->
+         </div>
+         @endif
+         <div id="userDashboard">
+         </div>
+        <div id="loader">
+            <img class="loading-img" src="{!! asset('img/ajax-loader.gif') !!}">
+        </div>
     <!-- .row -->
 </div>
 <!-- .container-fluid -->

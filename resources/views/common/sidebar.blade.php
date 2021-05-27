@@ -10,75 +10,37 @@
 
     <!-- Drawer navigation -->
     <nav class="drawer-main">
-        <a href="javascript:void(0)" id="closeBtn" class="closebtn" onclick="closeNav()" style="font-size:35px;float:right;margin-top: -34%;margin-right: 5%;">&times;</a>
+        <!--a href="javascript:void(0)" id="closeBtn" class="closebtn" onclick="closeNav()" style="font-size:35px;float:right;margin-top: -34%;margin-right: 5%;">&times;</a>-->
         <ul class="nav nav-drawer">
        
             <li class="nav-item nav-drawer-header">Apps</li>
-           @if(Session::get("loggedInUserRole") == 1 || Session::get("loggedInUserRole") == 7)
+                     
             <li class="nav-item active">
                 <a href="{{ url('/dashboard') }}"><i class="ion-ios-speedometer-outline"></i> Dashboard</a>
             </li>
-        
             <li class="nav-item nav-drawer-header">Components</li>
-
+            @foreach (Session::get('menus') as $mainMenu)
+            @if ( count($mainMenu->subMenuArray) > 0 )
             <li class="nav-item nav-item-has-subnav">
-                <a href="javascript:void(0)"><i class="ion-ios-calculator-outline"></i>Users</a>
-                <ul class="nav nav-subnav">
-
-                    <li>
-                        <a href="{{ url('/add/user') }}">Add Users</a>
-                    </li>
-
-                    <li>
-                        <a href="{{ url('/all/user') }}">All Users</a>
-                    </li>
-                                   
-
-                </ul>
-            </li>
-
-            <li class="nav-item nav-item-has-subnav">
-                <a href="javascript:void(0)"><i class="ion-ios-compose-outline"></i> Customer/Client</a>
-                <ul class="nav nav-subnav">
-
-                    <li>
-                        <a href="{{ url('/add/customer') }}">Add Customer</a>
-                    </li>
-
-                    <li>
-                        <a href="{{ url('/all/customer') }}">All Customer</a>
-                    </li>
-                </ul>
-            </li>
+            @else
+            <li class="nav-item">
             @endif
-            <li class="nav-item nav-item-has-subnav">
-                <a href="javascript:void(0)"><i class="ion-ios-list-outline"></i>Order</a>
+                @if ( count($mainMenu->subMenuArray) > 0 )
+                <a href="javascript:void(0)"><i class="{{$mainMenu->menu_icon}}"></i>{{ $mainMenu->menu_name}}</a>
+                @else
+                <a href="{{ url($mainMenu->menu_path) }}"><i class="{{$mainMenu->menu_icon}}"></i>{{ $mainMenu->menu_name}}</a>
+                @endif
+                @if ( count($mainMenu->subMenuArray) > 0 )
                 <ul class="nav nav-subnav">
-                    @if(Session::get("loggedInUserRole") == 2 || Session::get("loggedInUserRole") == 1 || Session::get("loggedInUserRole") == 6 || Session::get("loggedInUserRole") == 7)
+                    @foreach ($mainMenu->subMenuArray as $subMenu)
                     <li>
-                        <a href="{{url('/add/order') }}">Add New Order</a>
+                        <a href="{{ url($subMenu->menu_path) }}">{{ $subMenu->menu_name }}</a>
                     </li>
-                    @endif
-                    @if(Session::get("loggedInUserRole") == 1 || Session::get("loggedInUserRole") == 6 ||Session::get("loggedInUserRole") == 7)
-                    <li>
-                        <a href="{{url('/all/orders') }}">Manage Order</a>
-                    </li>
-                    @endif
-                    @if(Session::get("loggedInUserRole") == 5 || Session::get("loggedInUserRole") == 1 || Session::get("loggedInUserRole") == 7)
-                    <li>
-                        <a href="{{ url('/add/installation') }} ">Add Installation Details</a>
-                    </li>
-                    @endif
-                    @if(Session::get("loggedInUserRole") == 1 || Session::get("loggedInUserRole") == 4 || Session::get("loggedInUserRole") == 7)
-                    <li>
-                        <a href="{{ url('/add/paymentdetails')}}">Add Payment Details</a>
-                    </li>
-                    @endif
+                    @endforeach
                 </ul>
+                @endif
             </li>
-          
-
-
+            @endforeach
         </ul>
     </nav>
     <!-- End drawer navigation -->

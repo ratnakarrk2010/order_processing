@@ -56,7 +56,22 @@ class LoginController extends CommonController {
                 Session::put('loggedInUserId', $user->id);
                 Session::put('loggedInUserRole', $user->role_id);
                 Session::put('userFullName', $user->first_name . ' ' . $user->last_name);
-                if ($user->role_id == 1) {
+                //Set Menu
+                $menus = array();
+                /*
+                 * Prepare menus for the user
+                 */
+                $mainMenuArray = $loginModel->getMenu($user->role_id);
+
+                foreach ($mainMenuArray as $mainMenu) {
+                    $subMenuArray = $loginModel->getMenu($user->role_id, $mainMenu->menu_id, 2);
+                    $mainMenu->subMenuArray = $subMenuArray;
+                    array_push($menus, $mainMenu);
+                }
+                Session::put('menus', $menus);
+                Log::info("Menuss==>".json_encode($menus));
+                return redirect('/dashboard');
+                /*if ($user->role_id == 1) {
                     Log::info("In succes role1 if");
                     return redirect('/dashboard');
                 } else if ($user->role_id == 2) {
@@ -71,7 +86,7 @@ class LoginController extends CommonController {
                     return redirect('/dashboard');
                 }else if ($user->role_id == 7) {
                     return redirect('/dashboard');
-                }
+                }*/
             } else {
                 //$this->data['error_message'] = "Invalid Username or Password!";
                 return back()->with('error', 'Invalid Username or Password!');

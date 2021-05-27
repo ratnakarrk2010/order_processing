@@ -46,6 +46,7 @@
         <script src="{!! asset('theme/assets/js/plugins/flot/jquery.flot.pie.min.js') !!}"></script>
         <script src="{!! asset('theme/assets/js/plugins/flot/jquery.flot.stack.min.js') !!}"></script>
         <script src="{!! asset('theme/assets/js/plugins/flot/jquery.flot.resize.min.js') !!}"></script>
+       
 
  
         <script>
